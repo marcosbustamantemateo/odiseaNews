@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container-fluid text-center mb-5 mt-5">
+
+		<div class="row">
+			<div class="col">
+			
+				<div class="starter-template">
+					<h1 class="display-4">Panel de administración</h1><br>
+					<hr />
+				</div>
+				
+				<div class="row mt-5">
+					<div class="col-9">
+						<canvas id="myChart" class="ml-auto mr-auto" style="max-width: 70%; max-height: 100%;"></canvas>
+					</div>
+					
+					<div class="col ml-0 mt-5 mr-5">
+					
+						<div class="card mr-4">
+							<div class="card-body">	
+														
+								<div class="card-header text-center mb-3">
+    								<h1 class="card-title animated pulse infinite">Nuevo <i class="fa fa-plus-circle"></i></h1>
+  								</div>
+								
+								<a class="btn btn-lg btn-default btn-block text-white mt-1 mb-1" href="/nuevoArticulo"><i class="fa fa-file"></i> Articulo</a>
+								<a class="btn btn-lg btn-info btn-block text-white mt-1 mb-1" href="/nuevaCategoria"><i class="fa fa-tags"></i> Categoria</a>
+								<a class="btn btn-lg btn-pink btn-block text-white mt-1 mb-1" href="/nuevoUsuario"><i class="fa fa-user-plus"></i> Usuario</a>
+								<a class="btn btn-lg btn-warning btn-block text-white mt-1 mb-1" href="/nuevoRol"><i class="fa fa-sort"></i> Rol</a>
+							</div>
+						</div>
+				
+					</div>
+				</div>			    			
+    		</div>
+		</div>
+	</div>
+	<!-- /.container -->
+	<p><br></p>
+	<footer th:replace="layout/layout :: footer"></footer>
+
+	
+	<script th:inline="javascript">
+	
+		var ctx = document.getElementById("myChart").getContext('2d');
+		
+		var totalUsuarios = [[${totalUsuarios}]];
+		var totalComentarios = [[${totalComentarios}]];
+		var totalSuscripciones = [[${totalSuscripciones}]];
+		var totalCategorias = [[${totalCategorias}]];
+		var totalArticulos = [[${totalArticulos}]];
+		
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: ["Usuarios", "Categorias", "Suscripciones", "Articulos", "Comentarios"],
+		        datasets: [{
+		            label: 'Cantidad total',
+		            data: [totalUsuarios, totalCategorias, totalSuscripciones, totalArticulos, totalComentarios],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255,99,132,1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		    	legend: { display: false },
+		        title: {
+		          display: true,
+		          text: 'Estadisticas'
+		        },
+		        scales: {
+		            yAxes: [{
+		            	ticks: {
+		                    beginAtZero: true,
+		                    userCallback: function(label, index, labels) {
+		                        if (Math.floor(label) === label) {
+		                            return label;
+		                        }
+	
+		                    },
+		                }
+		            }]
+		        }
+		    }
+		});	
+	</script>   
+
+</body>
+</html>

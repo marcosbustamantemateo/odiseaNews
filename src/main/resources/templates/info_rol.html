@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mb-5">
+			
+			<div class="row justify-content-center">
+		
+				<div class="col-xs-1 mt-5">
+					<a href="javascript:window.history.back();" class="btn btn-primary btn-lg"><i class="fas fa-long-arrow-alt-left"></i> Atrás</a>
+				</div>
+			
+				<div class="col-md-6 mt-5">
+						
+					
+					<div class="card mb-5">				
+						<div class="card-body centrar">
+						
+							<div class="card-header text-center">
+    							<h1 class="card-title">Información de rol</h1> 
+  							</div>
+							
+							<p class="card-text mt-4"> 
+							
+							
+							<form th:action="@{/actualizaRol}" method="post">
+
+								<div class="form-group row">
+									<div class="col">
+										<label for="nombre" class="col-form-label">Nombre</label>
+										<input type="text" th:value="${rol.nombre}" name="nombre" id="nombre" class="form-control" 
+											autofocus required="required" />
+										<input type="text" th:value="${rol.idRol}" name="idRol" id="idRol" class="form-control" 
+										autofocus hidden="hidden" />
+											
+									</div>
+									
+								</div>
+			
+								<div class="form-group row mt-2">
+
+									<div class="col">
+										<a data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-danger btn-block text-white mt-3">
+											Eliminar
+										</a>
+									</div>
+
+									<div class="col">
+										<button type="submit" class="btn btn-lg btn-success btn-block mt-3">Actualizar</button>
+									</div>
+								</div>
+						
+							</form>
+														
+																					
+						 </div>
+					</div>
+				</div>
+			</div>
+					
+		</div>
+
+	<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminado</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        ¿Que desea hacer?
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		        <a th:href="@{/elimina_rol(idRol=${rol.idRol})}" type="button" class="btn btn-danger">Eliminar</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+
+	
+</body>
+</html>

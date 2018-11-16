@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container-fluid text-center mb-5 mt-5">
+
+		<div class="row">
+
+			<div class="col">
+
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error != null}">
+					  <i class="fa fa-times"></i>
+					  <p th:text="${error}" class="text-center"></p>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+				</div>
+				
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${success != null}">
+				  <i class="fa fa-check"></i>
+				  <p th:text="${success}" class="text-center"></p>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+
+				<div class="starter-template">
+					<div class="row">
+					
+						<div class="col">
+							<h1 class="display-4 text-right">Usuarios</h1>
+						</div>
+						
+						<div class="col mt-3"  >
+							<form class="form-inline pull-right" th:action="@{/filtraUsuarios}" method="post">
+							  <div class="form-group sm-2">
+							    <input type="text" th:if="${username == null}" class="form-control" id="login" name="login" placeholder="Login">
+								<input type="text" th:if="${username != null}" th:value="${username}" class="form-control" id="login" name="login" placeholder="Login">						  	
+							  </div>
+							  <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+							</form>
+						</div>
+						
+					</div>			
+				</div>
+		
+				<div class="table-responsive mb-5">
+					<table class="table table-hover mt-4">
+					
+						<thead class="bg-dark text-white">
+							<tr>
+								<th></th>
+								<th>APELLIDOS</th>
+								<th >NOMBRE</th>
+								<th>EDAD</th>
+								<th>LOGIN</th>								
+								<th class="col-1">EMAIL</th>
+								<th class="col-1"></th>
+								<th>ROLES</th>
+								<th>ACTIVADO</th>
+							</tr>
+						</thead>
+						
+						<tr th:each="usuario: ${listaUsuarios}">
+							
+							<td>
+								<a class="btn btn-primary text-white" 
+									th:href="@{/info_usuario(idUsuario=${usuario.idUsuario})}">
+									<i class="fa fa-info-circle"></i>
+								</a>
+							</td>
+							<td th:text="${usuario.apellidos}"></td>
+							<td th:text="${usuario.nombre}"></td>
+							<td th:text="${usuario.edad}"></td>
+							<td  th:text="${usuario.login}"></td>	
+							<td class="col-1" th:text="${usuario.email}"></td>
+							
+							<td class="col-1">
+								<a th:href="@{/envio_email(idUsuario=${usuario.idUsuario})}" class="btn btn-primary text-white">
+									<i class="fas fa-arrow-right"></i> <i class="fa fa-envelope prefix"></i>
+								</a>
+							</td>
+																			
+							<td>
+								<ul class="list-group" th:each="usuariosDetalles: ${usuario.detallesUsuario}">
+									<li class="list-group-item mb-1" th:text="${usuariosDetalles.rol.nombre}"></li>
+								</ul>
+								
+								<li class="list-group-item mb-1" th:if="${usuario.detallesUsuario.isEmpty()}">NO ASIGNADO</li>
+							</td>
+							
+							<td th:if="${usuario.enabled == true}">
+								<button type="button" th:attr="data-id=${usuario.enabled}" th:id="${usuario.idUsuario}" th:value="${usuario.idUsuario}" class="btn btn-success text-white">
+									<i class="fa fa-check-circle"></i>
+								</button>
+							</td>
+							
+							<td th:if="${usuario.enabled != true}">
+								<button type="button" th:attr="data-id=${usuario.enabled}" th:id="${usuario.idUsuario}" th:value="${usuario.idUsuario}" class="btn btn-danger text-white">
+									<i class="fa fa-times-circle"></i>
+								</button>
+							</td>
+							
+<!-- 							<td th:if="${usuario.enabled == true}"> -->
+<!-- 								<a th:href="@{/desactiva_usuario(idUsuario=${usuario.idUsuario})}" type="button" class="btn btn-success text-white">SI</a> -->
+<!-- 							</td> -->
+<!-- 							<td th:if="${usuario.enabled != true}"> -->
+<!-- 								<a th:href="@{/activa_usuario(idUsuario=${usuario.idUsuario})}" type="button" class="btn btn-warning text-white">NO</a> -->
+<!-- 							</td> -->
+						</tr>
+						
+					</table>
+			
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="titulo">...</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body" id="texto">
+      		...
+	      </div>
+	      <div class="modal-footer">
+	        <a id="botonAccion">...</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<script type="text/javascript" th:inline="javascript">
+	
+		var listaIdUsuarios = [[${listaIdUsuarios}]];
+		var idUsuario;
+		var activado;
+		
+		$(document).ready(function () {
+			
+			for(var i=0;i<listaIdUsuarios.length;i++) {
+				
+				$("#" + listaIdUsuarios[i]).on("click", function () {
+					
+					idUsuario = $(this).val();
+					activado = $(this).data('id');
+					$("#exampleModal").modal("show");
+					
+					if (activado == true) {
+						
+						$("#titulo").text("Confirmación de desactivación");
+						$("#texto").text("¿Esta seguro que desea desactivar este usuario?");
+						$("#botonAccion").text("Desactivar");
+						$("#botonAccion").attr("class", "btn btn-danger");
+						
+						activaDesactiva("/desactiva_usuario?idUsuario=");
+					}
+					
+					else if (activado == false) {
+						
+						$("#titulo").text("Confirmación de activación");
+						$("#texto").text("¿Esta seguro que desea activar este usuario?");
+						$("#botonAccion").text("Activar");
+						$("#botonAccion").attr("class", "btn btn-success");
+						
+						activaDesactiva("/activa_usuario?idUsuario=");
+					}
+				}); 
+			}
+						
+			function activaDesactiva (url) {
+				
+				$("#botonAccion").on("click", function () {
+									
+					$("#botonAccion").attr("href", url + idUsuario);
+				});
+			}		
+			
+		});
+		
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	
+	<p class="mt-3"><br></p>
+	<div class="container">
+			
+			<div class="row justify-content-center mt-5">
+		
+			
+				<div class="col-md-5 mt-5">
+						
+					<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error != null}">
+					  <p th:text="${error}" class="text-center"></p>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					
+					<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${success != null}">
+					  <p th:text="${success}" class="text-center"></p>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					
+					<div class="card">		
+											
+						<div class="card-body centrar">						
+																											
+							<form th:action="@{/enviarCorreo4Password}" method="post">
+								
+								<p class="h4 text-center mt-4">Email was sent, go to your inbox</p>
+								
+								<div class="md-form">
+							        <input type="email" th:value="${usuario.email}" name="email" id="email" class="form-control" autofocus 
+							        	required="required" hidden="hidden" />
+							    </div>
+								
+								<div class="text-center mt-4">
+							        <button class="btn btn-primary" type="submit">Send again<i class="fa fa-send ml-2"></i></button>
+							        <small id="emailHelp" class="form-text text-muted text-center">If did not receive it</small>
+							    </div>
+						
+							</form>
+														
+							</p>														
+						 </div>
+					</div>
+				</div>
+			</div>
+					
+		</div>
+
+
+	<!-- JQuery -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+</body>
+</html>

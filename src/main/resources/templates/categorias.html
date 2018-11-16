@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container text-center mb-5 mt-5">
+
+		<div class="row">
+
+			<div class="col">
+
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error != null}">		
+					<i class="fa fa-times"></i>			  
+			  		<p th:text="${error}" class="text-center"></p>				  
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    	<span aria-hidden="true">&times;</span>
+				  	</button>
+				</div>
+				
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${success != null}">				
+				  	<i class="fa fa-check"></i>
+				  	<p th:text="${success}" class="text-center"></p>
+				  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    	<span aria-hidden="true">&times;</span>
+				  	</button>
+				</div>
+				
+				<div class="starter-template">
+					<h1 class="display-4">Categorias</h1>
+				</div>
+		
+				<div class="table-responsive mb-5">
+					<table class="table table-hover mt-4">
+					
+						<thead class="bg-dark text-white">
+							<tr>
+								<th></th>
+								<th>NOMBRE</th>
+								<th>IMAGEN</th>
+							</tr>
+						</thead>
+						
+						<tr th:each="categoria: ${listaCategorias}">
+							
+							<td>
+								<a class="btn btn-primary" th:href="@{/info_categoria(idCategoria=${categoria.idCategoria})}">
+									<i class="fa fa-info-circle"></i>
+								</a>
+							</td>
+							<td th:text="${categoria.nombre}"></td>
+							<td>
+								<img alt="Image" class="border animated pulse infinite" th:src="@{/imagesCategoria/{idCategoria}(idCategoria=${categoria.idCategoria})}" width="175" height="125"/>
+							</td>
+
+							
+							</td>
+						</tr>
+						
+					</table>
+			
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

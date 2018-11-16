@@ -1,0 +1,58 @@
+Servidor: http://localhost:613/graphql-server-mbm
+Interfaz: http://localhost:613/graphiql-mbm
+
+******* QUERIES GRAPHQL SERVER *******
+
+------------ Crea Usuario ----------
+
+{creaUsuario(Usuario: {nombre: "uu", apellidos: "uu", edad: 69, email: "uu", login: "uu", password: "uu", enabled: true})}
+
+------------ Eliminar Usuario ----------
+
+{eliminaUsuario(idUsuario: 8)}
+
+------------ Get Usuario By Id ----------
+
+{
+  getUsuarioById(idUsuario: 40) {
+    idUsuario,
+    nombre,
+    apellidos,
+    edad,
+    email,
+    login,
+    password,
+    enabled
+  }
+}
+
+------------ Get Categoria By Id ----------
+
+{
+  getCategoriaById(idCategoria: 1) {
+    idCategoria,
+    nombre,
+    imagen
+  }
+}
+
+------------ Crea Suscripcion ------------
+
+
+query crearSuscripcion ($usuario: UsuarioInput, $categoria: CategoriaInput) {
+  
+  creaSuscripcion(Suscripcion: {usuario: $usuario, categoria: $categoria})
+}
+
+# Variables: 
+
+{
+  "usuario": {
+    "idUsuario": 42
+  },
+  "categoria": {
+    "idCategoria": 1
+  }
+}
+
+------------------------------------------------

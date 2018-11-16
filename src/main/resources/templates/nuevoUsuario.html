@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mb-5">
+			
+			<div class="row justify-content-center">
+					
+				<div class="col-xs-1 mt-5">
+					<a href="javascript:window.history.back();" class="btn btn-primary btn-lg"><i class="fas fa-long-arrow-alt-left"></i> Atrás</a>
+				</div>	
+				
+				<div class="col-md-7 mt-5">
+										
+					<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error != null}">
+					  <i class="fa fa-times"></i>
+					  <p th:text="${error}" class="text-center"></p>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					
+					<div class="card mb-5">				
+						<div class="card-body">
+    						<h1 class="card-title text-center">Nuevo Usuario</h1> 
+    						<hr>
+							<p class="card-text mt-4"> 							
+							
+							<form th:action="@{/crearUsuario}" method="post">
+
+								<div class="form-group row">
+									<div class="col">
+										<label for="nombre" class="col-form-label">Nombre</label>
+										<input type="text" name="nombre" id="nombre" class="form-control" autofocus required="required" />
+									</div>
+										
+									<div class="col-7">
+										<label for="apellidos" class="col-form-label">Apellidos</label>
+										<input type="text" name="apellidos" id="apellidos" class="form-control" required="required" />
+									</div>
+								</div>
+								
+								<div class="form-group row">
+									<div class="col-2">
+										<label for="edad" class="col-form-label">Edad</label>
+										<input type="number" name="edad" id="edad" class="form-control" min="0" max="99" autofocus required="required" />
+									</div>
+			
+									<div class="col-3">
+										<label for="login" class="col-form-label">Login</label>
+										<input type="text" name="login" id="login" class="form-control" autofocus required="required" />
+									</div>
+			
+									<div class="col">									
+										<label for="email" class="col-form-label">Email</label>								
+										<input type="email" name="email" id="email" class="form-control" required="required" />
+									</div>
+									
+								</div>
+								
+								<div class="form-group row">
+											
+									<div class="col">
+										<label for="password1" class="col-form-label">Password</label>
+										<input type="password" name="password1" id="password1" class="form-control" required="required" />
+									</div>
+									
+									<div class="col">
+										<label for="password2" class="col-form-label">Repite Password</label>
+										<input type="password" name="password2" id="password2" class="form-control" required="required" />
+									</div>
+								</div>
+								
+								<div class="form-group row">
+								
+									<div class="col">
+										<label for="categorias" class="col-form-label">Roles</label>
+									</div>
+													
+								</div>
+								
+								<div class="form-group row">
+											
+									<div class="col">
+										<div class="form-check" th:each="rol: ${listaRoles}">									
+										  <label>
+										  	<input class="form-check-input" type="checkbox" name="roles" id="roles" 
+										  	th:value="${rol.idRol}" th:text="${rol.nombre}" th:unless="${rol.nombre=='ROLE_USER'}">
+										  	<input class="form-check-input" type="checkbox" name="roles" id="roles" 
+										  	th:value="${rol.idRol}" th:text="${rol.nombre}" th:if="${rol.nombre=='ROLE_USER'}" checked="checked">
+										  </label>							  
+										</div>
+									</div>
+													
+								</div>
+			
+								<div class="form-group row mt-2">
+									<div class="col">
+										<button type="submit" class="btn btn-lg btn-success btn-block mt-3">Crear</button>
+									</div>
+								</div>
+						
+							</form>													
+						 </div>
+					</div>
+										
+				</div>
+				
+				<div class="col-md-3 mt-5">				
+					
+					<div class="card mb-5">							
+							<div class="card-body text-center">														
+								<div class="col"> 							
+									<a class="btn btn-indigo" th:href="${urlFacebook}"><i class="fab fa-facebook"></i> Facebook</a>	
+									<hr>	
+									<small id="emailHelp" class="form-text text-muted">Servicios para registrarse</small>	
+								</div>												
+							</div>						
+					</div>
+				
+				</div>
+				
+			</div>
+					
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminado</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        ¿Que desea hacer?
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		        <a th:href="@{/#}" type="button" class="btn btn-danger">Eliminar</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

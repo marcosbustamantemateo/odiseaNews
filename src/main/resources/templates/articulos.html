@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container-fluid text-center mb-5 mt-5">
+
+		<div class="row">
+
+			<div class="col">
+
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error != null}">
+					  <i class="fa fa-times"></i>
+					  <p th:text="${error}" class="text-center"></p>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+				</div>
+				
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${success != null}">
+				  <i class="fa fa-check"></i>
+				  <p th:text="${success}" class="text-center"></p>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+
+				<div class="starter-template">
+					<div class="row">
+					
+						<div class="col">
+							<h1 class="display-4 text-right">Articulos</h1>
+						</div>
+						
+						<div class="col mt-3">
+							<form class="form-inline pull-right" th:action="@{/filtraArticulos}" method="post">
+							  <div class="form-group sm-2">
+							    <input type="text" th:if="${tituloBuscado == null}" class="form-control" id="titulo" name="titulo" placeholder="Titulo">
+							  	<input type="text" th:if="${tituloBuscado != null}" th:value="${tituloBuscado}" class="form-control" id="titulo" name="titulo" placeholder="Titulo">							  
+							  </div>
+							  <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+							</form>
+						</div>
+						
+					</div>			
+				</div>
+		
+				<div class="table-responsive mb-5">
+					<table class="table table-hover mt-4">
+					
+						<thead class="bg-dark text-white">
+							<tr>
+								<th></th>
+								<th>TITULO</th>
+								<th>IMAGEN</th>
+								<th class="col-3">DESCRIPCIÓN</th>
+<!-- 								<th class="col-3">CONTENIDO</th> -->
+								<th>NÚMERO VISITAS</th>
+								<th>TAGS</th>
+								<th>AUTOR</th>
+							</tr>
+						</thead>
+						
+						<tr th:each="articulo: ${listaArticulos}">
+							
+							<td>
+								<a class="btn btn-primary" 
+								th:href="@{/info_articulo(idArticulo=${articulo.idArticulo})}">
+									<i class="fa fa-info-circle"></i>
+								</a>
+							</td>
+							<td th:text="${articulo.titulo}"></td>
+							<td>
+								<img alt="Image" class="border animated pulse infinite" 
+									th:src="@{/imagesArticulo/{idArticulo}(idArticulo=${articulo.idArticulo})}" width="175" height="125"/>
+							</td>
+							<td th:text="${articulo.descripcion}"></td>
+<!-- 							<td th:text="${articulo.contenido}"></td> -->
+							<td th:text="${articulo.numVisitas}"></td>
+							<td>								
+								<ul class="list-group" th:each="tag: ${articulo.tags}">
+									<li class="list-group-item mb-1" th:text="${tag.categoriaTag.nombre}"></li>
+								</ul>
+							
+								<li class="list-group-item mb-1" th:if="${articulo.tags.isEmpty()}">NO ASIGNADO</li>
+							
+							</td>
+							<td>
+								<p th:unless="${articulo.usuarioAdmin == null}" th:text="${articulo.usuarioAdmin.login}" />
+								<p th:if="${articulo.usuarioAdmin == null}">No asignado</p>
+							</td>
+						</tr>
+						
+					</table>
+			
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

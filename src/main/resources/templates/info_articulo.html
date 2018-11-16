@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	
+	<div class="container mb-5">
+			
+			<div class="row justify-content-center">
+			
+				<div class="col-xs-1 mt-5">
+					<a href="javascript:window.history.back();" class="btn btn-primary btn-lg"><i class="fas fa-long-arrow-alt-left"></i> Atrás</a>
+				</div>
+			
+				<div class="col-md-7 mt-5">
+						
+					<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error != null}">
+					  <i class="fa fa-times"></i>
+					  <p th:text="${error}" class="text-center"></p>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					
+					<div class="card mb-5">				
+						<div class="card-body centrar">
+						
+							<div class="card-header text-center">
+    							<h1 class="card-title">Información de articulo</h1> 
+  							</div>
+							
+							<p class="card-text mt-4"> 
+							
+							
+							<form th:action="@{/actualizaArticulo}" method="post" enctype="multipart/form-data">
+
+								<input type="text" th:value="${articulo.idArticulo}" name="idArticulo" id="idArticulo" class="form-control" 
+										autofocus hidden="hidden" />
+
+								<div class="form-group row">
+									<div class="col">
+										<label for="titulo" class="col-form-label">Título</label>
+										<input type="text" th:value="${articulo.titulo}" name="titulo" id="titulo" class="form-control" autofocus required="required" />
+									</div>
+									
+								</div>
+								
+								<div class="form-group row">
+									<div class="col">
+										<label for="descripcion" class="col-form-label">Descripción</label>
+										<textarea class="form-control" th:field="${articulo.descripcion}" name="descripcion" id="descripcion" autofocus required="required" rows="2"></textarea>
+									</div>
+									
+								</div>
+								
+								<div class="form-group row">
+									<div class="col">
+										<label for="contenido" class="col-form-label">Contenido</label>
+										<textarea class="form-control" th:field="${articulo.contenido}" name="contenido" id="contenido" autofocus required="required" rows="4"></textarea>
+									</div>
+									
+								</div>
+								
+								<div class="form-group row">
+								
+									<div class="col">
+										<label for="categorias" class="col-form-label">Tags</label>
+									</div>
+													
+								</div>
+								
+								<div class="form-group row">
+								
+									<div class="col">
+										<div class="form-check form-check-inline" th:each="categoria: ${listadoCategoriasCheck}" th:if="${listadoCategoriasCheck != null}">									
+										  <label>
+										  	<input class="form-check-input" type="checkbox" name="categoriasCheck" id="categoriasCheck" 
+										  	th:value="${categoria.idCategoria}" th:text="${categoria.nombre}" checked="checked">
+										  </label>									  
+										</div>
+										
+										
+										<div class="form-check form-check-inline" th:each="categoria: ${listadoCategoriasNoCheck}" th:if="${listadoCategoriasNoCheck != null}">									
+										  <label>
+										  	<input class="form-check-input" type="checkbox" name="categoriasNoCheck" id="categoriasNoCheck" 
+										  	th:value="${categoria.idCategoria}" th:text="${categoria.nombre}">
+										  </label>									  
+										</div>
+									</div>			
+								</div>
+
+
+								
+								<div class="form-group row">
+											
+									<div class="col">
+										<div class="custom-file">
+										  <input type="file" class="form-control custom-file-input" id="imagen" name="imagen" accept=".jpg,.jpeg,.png">
+										  <label for="imagen" class="custom-file-label">Seleccione una imagen</label>
+										</div>
+									</div>
+													
+								</div>
+								
+
+								<div class="form-group row mt-2">
+									<div class="col">
+										<a data-toggle="modal" data-target="#exampleModal" class="btn btn-lg btn-danger btn-block text-white mt-3">
+											Eliminar
+										</a>
+									</div>
+									<div class="col-6">
+										<button type="submit" class="btn btn-lg btn-success btn-block mt-3">Actualizar</button>
+									</div>
+								</div>
+						
+							</form>
+														
+																					
+						 </div>
+					</div>
+				</div>
+			</div>
+					
+		</div>
+
+
+	<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminado</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        ¿Que desea hacer?
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		        <a th:href="@{/elimina_articulo(idArticulo=${articulo.idArticulo})}" type="button" class="btn btn-danger">Eliminar</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
